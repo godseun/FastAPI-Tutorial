@@ -1,13 +1,18 @@
 from enum import Enum
 
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 app = FastAPI()
 
 class FooRequest(BaseModel):
     product_id: int = Field(..., example=100323)
     user_id: int = Field(..., example=5532)
+
+    @validator("product_id", "user_id")
+    def validate_id(cls, v):
+        assert v.digit(), "mustbe digit"
+
 
 
 class BarResponse(BaseModel):
@@ -20,10 +25,10 @@ class ModelName(str, Enum):
     lenet = "lenet"
 
 
-@app.post("foo", response_model=BarResponse)
+@app.post("/foo", response_model=BarResponse)
 async def foo(Bar: FooRequest) -> dict:
     ...
-    return ...
+    return {"product_name": "아이폰"}
 
 
 @app.get("/models/{model_name}")
