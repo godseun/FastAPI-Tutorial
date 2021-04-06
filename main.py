@@ -1,6 +1,8 @@
 from enum import Enum
 
 from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+
 from pydantic import BaseModel, Field, validator
 
 app = FastAPI()
@@ -23,6 +25,14 @@ class ModelName(str, Enum):
     alexnet = "alexnet"
     resnet = "resnet"
     lenet = "lenet"
+
+
+some_file_path = "./video.mp4"
+
+@app.get("/stream")
+async def video_streamer():
+    file_like = open(some_file_path, mode="rb")
+    return StreamingResponse(file_like, media_type="video/mp4")
 
 
 @app.post("/foo", response_model=BarResponse)
