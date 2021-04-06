@@ -12,7 +12,7 @@ class ModelName(str, Enum):
 
 
 @app.get("/models/{model_name}")
-async def get_model(model_name: ModelName):
+async def get_model(model_name: ModelName) -> dict:
     if model_name == ModelName.alexnet:
         return {"model_name": model_name, "message": "Deep Learning FTW!"}
     
@@ -23,7 +23,7 @@ async def get_model(model_name: ModelName):
 
 
 @app.get("/users/me")
-async def read_user_me():
+async def read_user_me() -> dict:
     return {"user_id": "the current user"}
 
 
@@ -33,12 +33,12 @@ async def read_user(user_id: str):
 
 
 @app.get("/items/{item_id}")
-async def read_item(item_id: int):
+async def read_item(item_id: int) -> dict:
     return {"item_id": item_id}
 
 
 @app.get("/")
-async def read_main():
+async def read_main() -> dict:
     """
     test
 
