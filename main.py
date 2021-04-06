@@ -1,14 +1,29 @@
 from enum import Enum
 
 from fastapi import FastAPI
+from pydantic import BaseModel, Field
 
 app = FastAPI()
+
+class FooRequest(BaseModel):
+    product_id: int = Field(..., example=100323)
+    user_id: int = Field(..., example=5532)
+
+
+class BarResponse(BaseModel):
+    product_name: str = Field(..., example="아이폰")
 
 
 class ModelName(str, Enum):
     alexnet = "alexnet"
     resnet = "resnet"
     lenet = "lenet"
+
+
+@app.post("foo", response_model=BarResponse)
+async def foo(Bar: FooRequest) -> dict:
+    ...
+    return ...
 
 
 @app.get("/models/{model_name}")
