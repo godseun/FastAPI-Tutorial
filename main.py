@@ -38,7 +38,7 @@ async def read_item(item_id: int):
 
 
 @app.get("/")
-async def root():
+async def read_main():
     """
     test
 
